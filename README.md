@@ -121,16 +121,16 @@ Certifique-se de enviar as requisições no formato JSON adequado, de acordo com
 
 ## Frontend
 
-O frontend deste projeto está disponível no repositório frontend_aligner_store https://github.com/Michael-Doug/frontend_aligner_store no GitHub. Certifique-se de visitar o repositório para obter mais informações sobre a interface do usuário e o código frontend do projeto.
+O frontend deste projeto está disponível no repositório frontend_aligner_store (https://github.com/Michael-Doug/frontend_aligner_store) no meu GitHub. Certifique-se de visitar o repositório para obter mais informações sobre a interface do usuário e o código frontend do projeto.
 
 ## Agradecimentos
 
 Gostaria de expressar minha sincera gratidão aos seguintes professores e líderes que contribuíram significativamente para o desenvolvimento deste projeto:
 
-Douglas Camargo Campos - Senior Software Engineering Manager na SouSmile
-Luiza Nathália Garzim - Senior Software Engineer (Tech Lead) na SouSmile
-Ramon Andrade - Senior Software Engineer na SouSmile
-Willian Martinez - Software Engineer na SouSmile
+Douglas Camargo Campos - Senior Software Engineering Manager na SouSmile</br>
+Luiza Nathália Garzim - Senior Software Engineer (Tech Lead) na SouSmile</br>
+Ramon Andrade - Senior Software Engineer na SouSmile</br>
+Willian Martinez - Software Engineer na SouSmile</br>
 
 Agradeço a cada um de vocês pela orientação, suporte e conhecimento compartilhado ao longo deste projeto. Suas contribuições foram inestimáveis e desempenharam um papel fundamental no sucesso desta iniciativa.
 
