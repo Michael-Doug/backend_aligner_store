@@ -56,7 +56,7 @@ A API possui os seguintes endpoints:
 
 ### Stores
 
-GET /stores/by_attr: Busca lojas com base em atributos específicos.
+GET /stores/by_attr: Busca lojas com base em atributos específicos.</br>
 GET /stores: Retorna uma lista de todas as lojas no formato JSON.
 GET /stores/:id: Retorna os detalhes de uma loja específica no formato JSON.
 POST /stores: Cria uma nova loja com base nos dados fornecidos no corpo da requisição.
