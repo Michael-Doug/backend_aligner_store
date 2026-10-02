@@ -1,5 +1,8 @@
 class CustomersController < ApplicationController
+  skip_before_action :authenticate!, only: %i[create]
+  before_action :require_admin!, only: %i[index search_by_attr]
   before_action :set_customer, only: %i[show update destroy]
+  before_action :authorize_owner!, only: %i[show update destroy]
 
   def index
     render json: Customer.all
@@ -40,6 +43,10 @@ class CustomersController < ApplicationController
 
   def set_customer
     @customer = Customer.find(params[:id])
+  end
+
+  def authorize_owner!
+    require_admin_or_owner!(@customer.id)
   end
 
   def customer_params

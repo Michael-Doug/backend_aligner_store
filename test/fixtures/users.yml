@@ -1,0 +1,21 @@
+admin:
+  email: admin@example.com
+  password_digest: <%= BCrypt::Password.create("senha-de-teste") %>
+  role: 1
+
+joana:
+  email: joana@example.com
+  password_digest: <%= BCrypt::Password.create("senha-de-teste") %>
+  role: 0
+  customer: joana
+
+pedro:
+  email: pedro@example.com
+  password_digest: <%= BCrypt::Password.create("senha-de-teste") %>
+  role: 0
+  customer: pedro
+
+sem_cliente:
+  email: avulso@example.com
+  password_digest: <%= BCrypt::Password.create("senha-de-teste") %>
+  role: 0
