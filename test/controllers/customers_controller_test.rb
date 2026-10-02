@@ -2,7 +2,7 @@ require "test_helper"
 
 class CustomersControllerTest < ActionDispatch::IntegrationTest
   test "busca por nome ignora maiúsculas e acentos digitados igual" do
-    get by_attr_customers_path, params: { name: "joana" }
+    get by_attr_customers_path, params: { name: "joana" }, headers: admin_headers
 
     assert_response :success
     assert_equal ["Joana Ribeiro"], response.parsed_body.map { |c| c["name"] }
@@ -32,12 +32,13 @@ class CustomersControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
-  test "remover devolve 204" do
+  test "remover devolve 204 e leva junto a conta de acesso" do
     customer = customers(:pedro)
     customer.orders.destroy_all
 
-    delete customer_path(customer)
-
+    assert_difference("User.count", -1) do
+      delete customer_path(customer), headers: admin_headers
+    end
     assert_response :no_content
   end
 
@@ -45,5 +46,17 @@ class CustomersControllerTest < ActionDispatch::IntegrationTest
     post customers_path, params: { name: "Solto" }
 
     assert_response :bad_request
+  end
+
+  test "cliente não enxerga o cadastro de outro" do
+    get customer_path(customers(:joana)), headers: auth_headers(users(:pedro))
+
+    assert_response :forbidden
+  end
+
+  test "listar clientes é restrito a admin" do
+    get customers_path, headers: auth_headers(users(:joana))
+
+    assert_response :forbidden
   end
 end

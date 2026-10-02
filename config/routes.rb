@@ -3,6 +3,10 @@ Rails.application.routes.draw do
     get 'by_attr', on: :collection, action: :search_by_attr
   end
 
+  post 'auth/signup', to: 'auth#signup'
+  post 'auth/login', to: 'auth#login'
+  get 'auth/me', to: 'auth#me'
+
   resources :stores, only: %i[index show create update destroy], concerns: :searchable
   resources :customers, only: %i[index show create update destroy], concerns: :searchable
   resources :products, only: %i[index show create update destroy], concerns: :searchable

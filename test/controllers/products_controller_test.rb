@@ -23,14 +23,16 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "criar sem preço devolve 422 com os erros" do
-    post products_path, params: { product: { name: "Sem preço", store_id: stores(:matriz).id } }
+    post products_path, params: { product: { name: "Sem preço", store_id: stores(:matriz).id } },
+         headers: admin_headers
 
     assert_response :unprocessable_entity
     assert_includes response.parsed_body["errors"].keys, "price"
   end
 
   test "atualizar com dado inválido devolve 422 em vez de estourar" do
-    patch product_path(products(:clareamento)), params: { product: { price: -1 } }
+    patch product_path(products(:clareamento)), params: { product: { price: -1 } },
+          headers: admin_headers
 
     assert_response :unprocessable_entity
   end
@@ -40,9 +42,22 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     product.order_items.destroy_all
 
     assert_difference("Product.count", -1) do
-      delete product_path(product)
+      delete product_path(product), headers: admin_headers
     end
     assert_response :no_content
+  end
+
+  test "escrever sem ser admin devolve 403" do
+    post products_path, params: { product: { name: "X", price: 1, store_id: stores(:matriz).id } },
+         headers: auth_headers(users(:joana))
+
+    assert_response :forbidden
+  end
+
+  test "catálogo é público, sem token" do
+    get products_path
+
+    assert_response :success
   end
 
   test "buscar id inexistente devolve 404" do

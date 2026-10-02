@@ -1,139 +1,75 @@
-# Projeto API em Ruby on Rails
+# backend_aligner_store
 
-Este é um projeto de API desenvolvido em Ruby on Rails, inspirado na Sousmile. A API possui um CRUD completo e utiliza o PostgreSQL para armazenar os dados nas tabelas.
+API em Ruby on Rails de uma loja de alinhadores, feita como estudo a partir do
+site da sousmile. O front que consome esta API está em
+[frontend_aligner_store](https://github.com/Michael-Doug/frontend_aligner_store).
 
-## Pré-requisitos
+## Como rodar
 
-Certifique-se de ter os seguintes requisitos instalados em sua máquina:
+Precisa de Ruby 3.2.2 e PostgreSQL.
 
-- Ruby (versão 3.2.0)
-- Ruby on Rails (versão 7.0.4.3)
-- PostgreSQL (versão 15.2)
-
-## Configuração do ambiente
-
-1. Clone este repositório para o seu diretório local:
-
-```prompt
-git clone https://github.com/seu-usuario/seu-projeto.git
-```
-
-2. Acesse o diretório do projeto:
-
-```prompt
-cd seu-projeto
-```
-
-3. Instale as dependências do projeto:
-
-```prompt
+```bash
 bundle install
+bin/rails db:prepare
+bin/rails db:seed
+bin/rails server
 ```
 
-4. Crie o banco de dados:
+O `db:seed` cria o admin, as formas de pagamento e um catálogo de exemplo.
+Em produção, defina `ADMIN_EMAIL` e `ADMIN_PASSWORD` antes de rodar.
 
-```prompt
-rails db:create
+### Variáveis de ambiente
+
+| Variável | Para que serve | Default |
+|---|---|---|
+| `DATABASE_HOST` / `DATABASE_PORT` | Conexão com o Postgres | `localhost` / `5432` |
+| `DATABASE_USERNAME` / `DATABASE_PASSWORD` | Credenciais do Postgres | `postgres` / `postgres` |
+| `DATABASE_NAME` | Prefixo do banco | `sou_store` |
+| `ALLOWED_ORIGINS` | Origens liberadas no CORS, separadas por vírgula | `http://localhost:4200` |
+| `ADMIN_EMAIL` / `ADMIN_PASSWORD` | Admin criado pelo seed | — |
+
+Em produção o Rails usa `DATABASE_URL` se ela estiver definida.
+
+## Autenticação
+
+Token JWT no header `Authorization: Bearer <token>`, válido por 24 horas.
+
+```bash
+curl -X POST localhost:3000/auth/login \
+  -d 'email=admin@example.com&password=sua-senha'
 ```
 
-5. Execute as migrações do banco de dados:
+| Rota | Quem pode |
+|---|---|
+| `POST /auth/signup`, `POST /auth/login` | qualquer um |
+| `GET` de `/products`, `/stores`, `/payments` | qualquer um |
+| `POST /customers` | qualquer um (é a pré-avaliação do site) |
+| escrever em `/products`, `/stores`, `/payments`, tudo em `/sellers` | admin |
+| listar `/customers`, `/orders`, `/order_items` | admin |
+| ver e mexer em um cliente, pedido ou item | admin, ou o próprio cliente |
 
-```prompt
-rails db:migrate
+## Recursos
+
+`stores`, `customers`, `sellers`, `products`, `payments`, `orders`,
+`order_items` — todos com `index`, `show`, `create`, `update` e `destroy`.
+
+Cada um também tem `GET /<recurso>/by_attr`, que filtra pelos atributos
+passados na query: colunas de texto por trecho (sem diferenciar maiúsculas) e
+colunas numéricas por valor exato.
+
+```bash
+curl 'localhost:3000/products/by_attr?name=alinhador'
+curl 'localhost:3000/products/by_attr?price=1890.0'
 ```
 
-6. Inicie o servidor da aplicação:
+### Valores do pedido
 
-```prompt
-rails server
+`total_value` e `unitary_value` não são aceitos na requisição. O valor unitário
+é copiado do preço do produto no momento da compra, e o total do pedido é
+sempre a soma dos itens, recalculada quando um item entra ou sai.
+
+## Testes
+
+```bash
+bin/rails test
 ```
-
-A API estará disponível em `http://localhost:3000`.
-
-## Endpoints
-
-A API possui os seguintes endpoints:
-
-### Stores
-
-GET /stores/by_attr: Busca lojas com base em atributos específicos.</br>
-GET /stores: Retorna uma lista de todas as lojas no formato JSON.</br>
-GET /stores/:id: Retorna os detalhes de uma loja específica no formato JSON.</br>
-POST /stores: Cria uma nova loja com base nos dados fornecidos no corpo da requisição.</br>
-PUT /stores/:id: Atualiza uma loja existente com base nos dados fornecidos no corpo da requisição.</br>
-DELETE /stores/:id: Remove uma loja específica.
-
-### Customers
-
-GET /customers/by_attr: Busca clientes com base em atributos específicos.</br>
-GET /customers: Retorna uma lista de todos os clientes no formato JSON.</br>
-GET /customers/:id: Retorna os detalhes de um cliente específico no formato JSON.</br>
-POST /customers: Cria um novo cliente com base nos dados fornecidos no corpo da requisição.</br>
-PUT /customers/:id: Atualiza um cliente existente com base nos dados fornecidos no corpo da requisição.</br>
-DELETE /customers/:id: Remove um cliente específico.
-
-### Products
-
-GET /products/by_attr: Busca produtos com base em atributos específicos.</br>
-GET /products: Retorna uma lista de todos os produtos no formato JSON.</br>
-GET /products/:id: Retorna os detalhes de um produto específico no formato JSON.</br>
-POST /products: Cria um novo produto com base nos dados fornecidos no corpo da requisição.</br>
-PUT /products/:id: Atualiza um produto existente com base nos dados fornecidos no corpo da requisição.</br>
-DELETE /products/:id: Remove um produto específico.
-
-### Sellers
-
-GET /sellers/by_attr: Busca vendedores com base em atributos específicos.</br>
-GET /sellers: Retorna uma lista de todos os vendedores no formato JSON.</br>
-GET /sellers/:id: Retorna os detalhes de um vendedor específico no formato JSON.</br>
-POST /sellers: Cria um novo vendedor com base nos dados fornecidos no corpo da requisição.</br>
-PUT /sellers/:id: Atualiza um vendedor existente com base nos dados fornecidos no corpo da requisição.</br>
-DELETE /sellers/:id: Remove um vendedor específico.
-
-### Payments
-
-GET /payments/by_attr: Busca pagamentos com base em atributos específicos.</br>
-GET /payments: Retorna uma lista de todos os pagamentos no formato JSON.</br>
-GET /payments/:id: Retorna os detalhes de um pagamento específico no formato JSON.</br>
-POST /payments: Cria um novo pagamento com base nos dados fornecidos no corpo da requisição.</br>
-PUT /payments/:id: Atualiza um pagamento existente com base nos dados fornecidos no corpo da requisição.</br>
-DELETE /payments/:id: Remove um pagamento específico.
-
-### Orders
-
-GET /orders/by_attr: Busca pedidos com base em atributos específicos.</br>
-GET /orders: Retorna uma lista de todos os pedidos no formato JSON.</br>
-GET /orders/:id: Retorna os detalhes de um pedido específico no formato JSON.</br>
-POST /orders: Cria um novo pedido com base nos dados fornecidos no corpo da requisição.</br>
-PUT /orders/:id: Atualiza um pedido existente com base nos dados fornecidos no corpo da requisição.</br>
-DELETE /orders/:id: Remove um pedido específico.
-
-### Order Items
-
-GET /order_items/by_attr: Busca itens de pedido com base em atributos específicos.</br>
-GET /order_items: Retorna uma lista de todos os itens de pedido no formato JSON.</br>
-GET /order_items/:id: Retorna os detalhes de um item de pedido específico no formato JSON.</br>
-POST /order_items: Cria um novo item de pedido com base nos dados fornecidos no corpo da requisição.</br>
-PUT /order_items/:id: Atualiza um item de pedido existente com base nos dados fornecidos no corpo da requisição.</br>
-DELETE /order_items/:id: Remove um item de pedido específico.</br>
-
-Certifique-se de enviar as requisições no formato JSON adequado, de acordo com os parâmetros esperados pelos endpoints.
-
-## Frontend
-
-O frontend deste projeto está disponível no repositório frontend_aligner_store (https://github.com/Michael-Doug/frontend_aligner_store) no meu GitHub. Certifique-se de visitar o repositório para obter mais informações sobre a interface do usuário e o código frontend do projeto.
-
-## Contribuição
-
-Contribuições são bem-vindas! Se você tiver sugestões, correções de bugs ou melhorias para o projeto, fique à vontade para enviar um pull request.
-
-## Agradecimentos
-
-Gostaria de expressar minha sincera gratidão aos seguintes professores e líderes que contribuíram significativamente para o desenvolvimento deste projeto:
-
-Douglas Camargo Campos - Senior Software Engineering Manager na SouSmile</br>
-Luiza Nathália Garzim - Senior Software Engineer (Tech Lead) na SouSmile</br>
-Ramon Andrade - Senior Software Engineer na SouSmile</br>
-Willian Martinez - Software Engineer na SouSmile</br>
-
-Agradeço a cada um de vocês pela orientação, suporte e conhecimento compartilhado ao longo deste projeto. Suas contribuições foram inestimáveis e desempenharam um papel fundamental no sucesso desta iniciativa.
