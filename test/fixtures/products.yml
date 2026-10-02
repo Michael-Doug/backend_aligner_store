@@ -1,13 +1,11 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+alinhador_light:
+  name: Alinhador Light
+  description: Casos leves de apinhamento
+  price: 150.0
+  store: matriz
 
-one:
-  name: MyString
-  description: MyString
-  price: 9.99
-  store: one
-
-two:
-  name: MyString
-  description: MyString
-  price: 9.99
-  store: two
+clareamento:
+  name: Clareamento
+  description: Gel clareador com placa sob medida
+  price: 80.5
+  store: filial

@@ -2,18 +2,24 @@ class OrderItem < ApplicationRecord
   belongs_to :order
   belongs_to :product
 
-  before_save :calculate_order_item_total_value
-  after_save :update_order
+  validates :quantity, numericality: { only_integer: true, greater_than: 0 }
 
-  def calculate_order_item_total_value
-    if product && product.price
-      self.unitary_value = product.price
-      self.total_value = product.price*quantity
-    end
+  before_validation :copy_values_from_product
+  after_save :refresh_order_total
+  after_destroy :refresh_order_total
+
+  private
+
+  # O preço vem do produto no momento da compra: o pedido não pode mudar de
+  # valor se o produto for reajustado depois.
+  def copy_values_from_product
+    return if product.nil? || quantity.nil?
+
+    self.unitary_value = product.price
+    self.total_value = product.price * quantity if product.price
   end
 
-  def update_order
-    order.calculate_order_total_value
-    order.save
+  def refresh_order_total
+    order.recalculate_total_value!
   end
 end

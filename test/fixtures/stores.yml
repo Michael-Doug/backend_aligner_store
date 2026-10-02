@@ -1,11 +1,9 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+matriz:
+  name: Loja Centro
+  address: Rua das Flores, 100
+  manager: Ana Lima
 
-one:
-  name: MyString
-  address: MyString
-  manager: MyString
-
-two:
-  name: MyString
-  address: MyString
-  manager: MyString
+filial:
+  name: Loja Shopping
+  address: Av. Paulista, 2000
+  manager: Bruno Costa

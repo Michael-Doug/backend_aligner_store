@@ -109,6 +109,8 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.9)
+    nokogiri (1.15.1-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.15.1-x86_64-linux)
       racc (~> 1.4)
     pg (1.5.3)
@@ -149,7 +151,6 @@ GEM
     rake (13.0.6)
     reline (0.3.4)
       io-console (~> 0.5)
-    sqlite3 (1.6.3-x86_64-linux)
     thor (1.2.2)
     timeout (0.3.2)
     tzinfo (2.0.6)
@@ -160,6 +161,7 @@ GEM
     zeitwerk (2.6.8)
 
 PLATFORMS
+  arm64-darwin-23
   x86_64-linux
 
 DEPENDENCIES
@@ -170,11 +172,10 @@ DEPENDENCIES
   puma (~> 5.0)
   rack-cors
   rails (~> 7.0.4, >= 7.0.4.3)
-  sqlite3 (~> 1.4)
   tzinfo-data
 
 RUBY VERSION
-   ruby 3.2.0p0
+   ruby 3.2.2p53
 
 BUNDLED WITH
    2.4.7

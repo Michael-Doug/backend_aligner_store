@@ -1,17 +1,15 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+joana:
+  name: Joana Ribeiro
+  address: Rua A, 10
+  email: joana@example.com
+  phone: "11999990001"
+  cpf: "11111111111"
+  store: matriz
 
-one:
-  name: MyString
-  address: MyString
-  email: MyString
-  phone: MyString
-  cpf: MyString
-  store: one
-
-two:
-  name: MyString
-  address: MyString
-  email: MyString
-  phone: MyString
-  cpf: MyString
-  store: two
+pedro:
+  name: Pedro Álvares
+  address: Rua B, 20
+  email: pedro@example.com
+  phone: "11999990002"
+  cpf: "22222222222"
+  store: filial
