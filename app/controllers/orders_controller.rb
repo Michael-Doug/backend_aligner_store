@@ -1,5 +1,7 @@
 class OrdersController < ApplicationController
+  before_action :require_admin!, only: %i[index search_by_attr]
   before_action :set_order, only: %i[show update destroy]
+  before_action :authorize_owner!, only: %i[show update destroy]
 
   def index
     render json: Order.all
@@ -15,6 +17,7 @@ class OrdersController < ApplicationController
 
   def create
     order = Order.new(order_params)
+    order.customer_id = current_user.customer_id unless current_user.admin?
 
     if order.save
       render json: order, status: :created
@@ -40,6 +43,10 @@ class OrdersController < ApplicationController
 
   def set_order
     @order = Order.find(params[:id])
+  end
+
+  def authorize_owner!
+    require_admin_or_owner!(@order.customer_id)
   end
 
   # total_value é sempre calculado a partir dos itens; aceitar do cliente

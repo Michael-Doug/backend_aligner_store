@@ -9,5 +9,11 @@ class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
 
-  # Add more helper methods to be used by all tests here...
+  def auth_headers(user)
+    { "Authorization" => "Bearer #{AuthToken.encode(user)}" }
+  end
+
+  def admin_headers
+    auth_headers(users(:admin))
+  end
 end

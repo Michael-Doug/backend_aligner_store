@@ -1,4 +1,5 @@
 class SellersController < ApplicationController
+  before_action :require_admin!
   before_action :set_seller, only: %i[show update destroy]
 
   def index

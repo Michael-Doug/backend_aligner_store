@@ -13,3 +13,11 @@ pedro:
   phone: "11999990002"
   cpf: "22222222222"
   store: filial
+
+mariana:
+  name: Mariana Dias
+  address: Rua C, 30
+  email: mariana@example.com
+  phone: "11999990003"
+  cpf: "33333333333"
+  store: matriz
