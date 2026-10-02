@@ -1,9 +1,7 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+carla:
+  name: Carla Souza
+  store: matriz
 
-one:
-  name: MyString
-  store: one
-
-two:
-  name: MyString
-  store: two
+diego:
+  name: Diego Martins
+  store: filial

@@ -1,15 +1,13 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+dois_alinhadores:
+  quantity: 2
+  unitary_value: 150.0
+  total_value: 300.0
+  order: joana_pix
+  product: alinhador_light
 
-one:
+um_clareamento:
   quantity: 1
-  unitary_value: 9.99
-  total_value: 9.99
-  order: one
-  product: one
-
-two:
-  quantity: 1
-  unitary_value: 9.99
-  total_value: 9.99
-  order: two
-  product: two
+  unitary_value: 80.5
+  total_value: 80.5
+  order: pedro_cartao
+  product: clareamento

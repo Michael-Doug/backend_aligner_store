@@ -1,13 +1,11 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+joana_pix:
+  total_value: 0
+  store: matriz
+  payment: pix
+  customer: joana
 
-one:
-  total_value: 9.99
-  store: one
-  payment: one
-  customer: one
-
-two:
-  total_value: 9.99
-  store: two
-  payment: two
-  customer: two
+pedro_cartao:
+  total_value: 0
+  store: filial
+  payment: cartao
+  customer: pedro

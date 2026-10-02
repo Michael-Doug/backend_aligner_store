@@ -4,11 +4,15 @@ class Order < ApplicationRecord
   belongs_to :customer
   has_many :order_items, dependent: :destroy
 
-  before_save :calculate_order_total_value
+  before_validation :reset_total_value, on: :create
 
-  def calculate_order_total_value
-    puts "calcular o valor total deu certo?"
-    self.total_value = order_items.sum(&:total_value)
+  def recalculate_total_value!
+    update_column(:total_value, order_items.sum(:total_value) || 0)
   end
 
+  private
+
+  def reset_total_value
+    self.total_value = 0
+  end
 end

@@ -10,24 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_21_155652) do
+ActiveRecord::Schema[7.0].define(version: 2026_02_02_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "customers", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.string "address"
     t.string "email"
     t.string "phone"
-    t.string "cpf"
+    t.string "cpf", null: false
     t.bigint "store_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["cpf"], name: "index_customers_on_cpf", unique: true
     t.index ["store_id"], name: "index_customers_on_store_id"
   end
 
   create_table "order_items", force: :cascade do |t|
-    t.integer "quantity"
+    t.integer "quantity", null: false
     t.decimal "unitary_value"
     t.decimal "total_value"
     t.bigint "order_id", null: false
@@ -39,7 +40,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_155652) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.decimal "total_value"
+    t.decimal "total_value", default: "0.0"
     t.bigint "store_id", null: false
     t.bigint "payment_id", null: false
     t.bigint "customer_id", null: false
@@ -51,15 +52,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_155652) do
   end
 
   create_table "payments", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_payments_on_name", unique: true
   end
 
   create_table "products", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.string "description"
-    t.decimal "price", precision: 10, scale: 2
+    t.decimal "price", precision: 10, scale: 2, null: false
     t.bigint "store_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -67,7 +69,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_155652) do
   end
 
   create_table "sellers", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.bigint "store_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -75,7 +77,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_155652) do
   end
 
   create_table "stores", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.string "address"
     t.string "manager"
     t.datetime "created_at", null: false
